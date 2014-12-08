@@ -89,12 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var userEle = $("username");
     var channelsEle = $("channels");
     var portEle = $("port");
+    var passEle = $("connectionPass");
 
     var host = hostEle.value;
     var username = userEle.value;
     var channels = channelsEle.value;
     var port = portEle.value;
     var secure = $("secure").checked;
+    var connectionPass = passEle.value;
 
 
     if (!host) {
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoConnect: false,
         secure: secure,
         port: port || (secure ? 6697 : 6667),
-        //debug: true,
+        password: connectionPass
       });
 
       $("loading").style.display = "block";

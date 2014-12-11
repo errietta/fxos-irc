@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoConnect: false,
         secure: secure,
         port: port || (secure ? 6697 : 6667),
+        //debug: true,
         password: connectionPass,
       });
 

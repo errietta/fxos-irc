@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
       client.addListener('join', function(channel, nick, message) {
-          if (nick.toLowerCase() === username.toLowerCase()) {
+          if (nick === username) {
               new Tab({
                   chan: channel,
                   client: client,
@@ -219,6 +219,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   userList: true,
               });
           }
+      });
+      client.addListener('nick', function(oldNick, newNick, channels, message) {
+          if (oldNick === username) {
+              username = newNick;
+          }
+      });
+      client.addListener('registered', function(message) {
+          username = message.args[0];
       });
     }
   });

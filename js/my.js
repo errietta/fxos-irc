@@ -29,6 +29,7 @@
 var clients = {};
 var privMSG = {};
 var chans = [];
+var username;
 
 var $ = document.getElementById.bind(document);
 
@@ -85,12 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var passEle = $("connectionPass");
 
     var host = hostEle.value;
-    var username = userEle.value;
     var channels = channelsEle.value;
     var port = portEle.value;
     var secure = $("secure").checked;
     var connectionPass = passEle.value;
 
+    username = userEle.value;
 
     if (!host) {
       host = document.webL10n.get('defaultHost');
@@ -238,6 +239,16 @@ document.addEventListener("DOMContentLoaded", function () {
                   select.style.display = 'block';
               }
           }
+      });
+      client.addListener('nick', function(oldNick, newNick, channels, message) {
+          console.log(oldNick, username);
+          if (oldNick.toLowerCase() === username.toLowerCase()) {
+              console.log(newNick);
+              username = newNick;
+          }
+      });
+      client.addListener('registered', function(message) {
+          username = message.args[0];
       });
     }
   });

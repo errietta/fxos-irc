@@ -28,6 +28,7 @@
 
 var clients = {};
 var privMSG = {};
+var chans = [];
 
 var $ = document.getElementById.bind(document);
 
@@ -137,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoConnect: false,
         secure: secure,
         port: port || (secure ? 6697 : 6667),
-        password: connectionPass
+        password: connectionPass,
       });
 
       $("loading").style.display = "block";
@@ -217,6 +218,25 @@ document.addEventListener("DOMContentLoaded", function () {
                   host: host,
                   userList: true,
               });
+
+              chans.push(channel);
+
+              var option = document.createElement('option');
+              option.value = channel;
+              option.innerHTML = channel;
+
+              var select = document.getElementById('channelsList');
+              select.addEventListener('change', function() {
+                var chan = select.getElementsByTagName('option')[select.selectedIndex].value;
+                document.getElementById("container").showCard(chans.indexOf(chan) + 1);
+              });
+
+              select.appendChild(option);
+
+              if (chans.length > 20) {
+                  document.getElementById('tabbar').style.display = 'none';
+                  select.style.display = 'block';
+              }
           }
       });
     }

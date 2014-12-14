@@ -275,9 +275,29 @@ function addToChannelList(channel) {
     }
 }
 
-function parseCommand(client, cmd) {
+function parseCommand(client, host, cmd) {
   cmd = cmd.replace(/^\//, '');
 
   var args = cmd.match(/(\S+) ?(\S+)? ?(.*)/);
+
+  if (args[1] === 'query' && args[2]) {
+    var to = args[2];
+    var msg = privMSG[to];
+
+    if (!msg) {
+      msg = privMSG[to] = new Tab({
+        chan: to,
+        client: client,
+        nick: username,
+        host: host,
+      });
+      addToChannelList(to);
+    }
+
+    document.getElementById("container").showCard(chans.indexOf(to) + 1);
+
+    return;
+  }
+
   client.send(args[1], args[2], args[3]);
 }

@@ -235,6 +235,8 @@ document.addEventListener("DOMContentLoaded", function () {
               });
 
               addToChannelList(channel);
+
+              document.getElementById("container").showCard(chans.indexOf(channel) + 1);
           }
       });
       client.addListener('nick', function(oldNick, newNick, channels, message) {

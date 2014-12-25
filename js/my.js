@@ -275,7 +275,7 @@ function addToChannelList(channel) {
     }
 }
 
-function parseCommand(client, host, cmd) {
+function parseCommand(client, nick, host, cmd) {
   cmd = cmd.replace(/^\//, '');
 
   var args = cmd.match(/(\S+) ?(\S+)? ?(.*)/);
@@ -288,7 +288,7 @@ function parseCommand(client, host, cmd) {
       msg = privMSG[to] = new Tab({
         chan: to,
         client: client,
-        nick: username,
+        nick: nick,
         host: host,
       });
       addToChannelList(to);

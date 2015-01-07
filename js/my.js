@@ -200,10 +200,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         msg.addText(from, Utf8.decode(text));
 
-        var img = "https://raw.github.com/nickdesaulniers/fxos-irc/master/128.png";
+        var img = "https://raw.githubusercontent.com/nickdesaulniers/fxos-irc/master/images/128.png";
+
         if ($("container").selectedCard.id !== msg.card.id) {
           // This hack is because origin is not supported in manifests for < 1.1.
-          sendNotification(from, { body: Utf8.decode(text), icon: img });
+          var notif = sendNotification(from, { body: Utf8.decode(text), icon: img });
+
+          notif.onclick = function() {
+              var request = window.navigator.mozApps.getSelf();
+
+              request.onsuccess = function() {
+                    request.result.launch();
+                    document.getElementById("container").showCard(chans.indexOf(from) + 1);
+                    notif.close();
+              };
+          }
+
           if (!msg.tab.classList.contains("glow")) {
             msg.tab.classList.add("glow");
           }
